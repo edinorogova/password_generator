@@ -33,7 +33,7 @@ def get_password_types():
     """
     # состояние выбранных типов (True - выбран, False - не выбран)
     types = {"LOWER_CASE": False, "UPPER_CASE": False, "NO_LETTERS": False,
-             "NUM": False, "SPEC": False}
+             "NUMS": False, "SPEC": False}
 
     flags_str = get_password_types.__doc__
     print(flags_str)
@@ -72,8 +72,29 @@ def get_password_types():
     return types
 
 def generate_password(password_length, types):
-    password = ""
+    password = []
+    spec_list = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "—", "_", "+",
+                 "=", ";", ":", ",", ".", "?", "|", "`", "~", "[", "]", "{", "}"]
 
+    cur_password_len = 0
+    while cur_password_len < password_length:
+        if types["NUMS"]:
+            # генерируем случайное число от 0 до 9
+            password.append(random.randrange(10))
+        if types["SPEC"]:
+            # выбираем случайные элементы из списка специальных символов
+            password.append(random.choice(spec_list))
+        if not types["NO_LETTERS"]:
+            # если используем буквы
+            if types["UPPER_CASE"]:
+                # генерируем заглавные буквы
+                password.append(random.randint(65, 90))
+            if types["LOWER_CASE"]:
+                # генерируем заглавные буквы
+                password.append(int(random.random(101, 122)))
+
+
+    # random.shuffle(x)
 
     return password
 
